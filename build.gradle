@@ -25,6 +25,10 @@ repositories {
         name = "BlameJared"
         url = "https://maven.blamejared.com"
     }
+    flatDir {
+        name 'flatDir'
+        dirs 'local_sources'
+    }
 }
 
 base {
@@ -41,7 +45,7 @@ legacyForge {
         minecraftVersion = project.parchment_minecraft_version
     }
 
-    // accessTransformers = project.files('src/main/resources/META-INF/accesstransformer.cfg')
+    accessTransformers = project.files('src/main/resources/META-INF/accesstransformer.cfg')
 
     runs {
         client {
@@ -97,14 +101,14 @@ obfuscation {
 }
 
 dependencies {
-    modImplementation "curse.maven:terrafirmacraft-302973:${tfc_identifier}"
+    modImplementation "flatDir:TerraFirmaCraft-Forge-1.20.1-3.2.13:special"
     modRuntimeOnly "vazkii.patchouli:Patchouli:${minecraft_version}-${patchouli_version}"
 
     modRuntimeOnly "curse.maven:tfcgenviewer-1062270:${tfcgv_identifier}"
+
+    compileOnly 'org.jetbrains:annotations:26.0.2'
 }
 
-// Uncomment the lines below if you wish to configure mixin. The mixin file should be named modid.mixins.json.
-/*
 mixin {
     add sourceSets.main, "${mod_id}.refmap.json"
     config "${mod_id}.mixins.json"
@@ -119,7 +123,6 @@ jar {
             "MixinConfigs": "${mod_id}.mixins.json"
     ])
 }
-*/
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
     var replaceProperties = [
